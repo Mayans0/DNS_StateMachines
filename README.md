@@ -2,8 +2,7 @@
 
 | Name               | Description                                                 | Inputs                  | Outputs                 |
 |--------------------|-------------------------------------------------------------|-------------------------|-------------------------|
-| SEND_DNS_REQUEST   | Sends a DNS request packet to the server, triggering SUCCESS event | Control channel          | Control channel          |
-|                    |                                                             | Event                   | Event                   |
+| SEND_DNS_REQUEST   | Sends a DNS request packet to the server, triggering SUCCESS event | Control channel Event          | Control channel   Event        |
 | DNS_PACKET_LISTEN  | Listens for packets on a set filter, triggering SUCCESS event | Control channel          | Control channel          |
 |                    |                                                             | Event                   | Event                   |
 |                    |                                                             | Packet Queue            | Packet Queue            |
