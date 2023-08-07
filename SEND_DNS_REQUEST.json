@@ -1,0 +1,129 @@
+{
+  "id": "SEND_DNS_REQUEST",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMETERS"
+        }
+      }
+    },
+    "GET_PARAMETERS": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_parameters (ctrl)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables domain_name) (name)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables client) (client)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables bind9) (bind9)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SETTING_UP_VARIABLES",
+          "actions": [
+            {
+              "params": {},
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "params": {},
+              "type": "assign (name) (name)"
+            },
+            {
+              "params": {},
+              "type": "assign (client) (client)"
+            },
+            {
+              "params": {},
+              "type": "assign (bind9) (bind9)"
+            }
+          ]
+        }
+      }
+    },
+    "SETTING_UP_VARIABLES": {
+      "entry": [
+        {
+          "params": {},
+          "type": "create_DNS_packet (pkt)"
+        },
+        {
+          "params": {},
+          "type": "set_IP_src (pkt client) (pkt)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables bind9) (bind9)"
+        },
+        {
+          "params": {},
+          "type": "set_IP_dst (pkt bind9) (pkt)"
+        },
+        {
+          "params": {},
+          "type": "set_random_int (1000 2000) (tid)"
+        },
+        {
+          "params": {},
+          "type": "enable_DNS_rd_flag (pkt) (pkt)"
+        },
+        {
+          "params": {},
+          "type": "set_DNS_transaction_id (pkt tid) (pkt)"
+        },
+        {
+          "params": {},
+          "type": "create_DNS_query (query)"
+        },
+        {
+          "params": {},
+          "type": "set_query_name (query name) (name)"
+        },
+        {
+          "params": {},
+          "type": "add_DNS_query_to_DNS_packet (pkt query) (pkt)"
+        },
+        {
+          "params": {},
+          "type": "send (pkt)"
+        }
+      ],
+      "on": {
+        "PACKET_SENT": {
+          "target": "ENDING",
+          "actions": {
+            "params": {},
+            "type": "assign (ctrl) (ctrl)"
+          }
+        }
+      }
+    },
+    "ENDING": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (SUCCESS) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (ctrl event)"
+        }
+      ]
+    }
+  }
+}
