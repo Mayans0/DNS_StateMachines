@@ -9,6 +9,6 @@
 | ADD_GLUE_RECORDS   | Adds glue records to a packet                           | Control channel, Packet, Modified Packet | Control channel, Event |
 | SEND_SYNC          | Sends a packet through a control channel                     | Control channel, Packet | Control channel, Event |
 | WAIT_SYNC          | Waits for a sync signal and receives a packet through the control channel | Control channel, Event, Synced Message | Control channel, Event |
-| COMPARE_REPLIES0x20| Compares domain name casings of two replies recieved from the data link and control channel | Control channel, Received reply (data link), Synced reply (data channel) | Control channel, Event |
+| COMPARE_REPLIES0x20| Compares domain name casings of two replies recieved from the data link and control the channel | Control channel, Received reply (data link), Synced reply (data channel) | Control channel, Event |
 | GET_DNS_SPORT      |                                                             |                         |                         |
 | GET_DNS_REOLVER_IP |                                                             |                         |                         |
