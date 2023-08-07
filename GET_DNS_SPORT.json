@@ -41,7 +41,7 @@
           "type": "set (SUCCESS) (event)"
         },
         {
-          "type": "return_values (ctrl event)"
+          "type": "return_values (ctrl event sport)"
         }
       ]
     }
