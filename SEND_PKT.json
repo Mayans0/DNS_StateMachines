@@ -1,0 +1,46 @@
+{
+  "id": "SEND_PKT",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "get_parameters"
+        }
+      }
+    },
+    "get_parameters": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_parameters (ctrl pkt)"
+        },
+        {
+          "params": {},
+          "type": "send (pkt)"
+        }
+      ],
+      "on": {
+        "PACKET_SENT": {
+          "target": "ENDING",
+          "actions": {
+            "params": {},
+            "type": "assign (ctrl) (ctrl)"
+          }
+        }
+      }
+    },
+    "ENDING": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (SUCCESS) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (ctrl event)"
+        }
+      ]
+    }
+  }
+}
