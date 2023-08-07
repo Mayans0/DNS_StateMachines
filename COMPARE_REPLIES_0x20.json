@@ -1,0 +1,76 @@
+{
+  "id": "COMPARE_REPLIES_0x20",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "get_parameters"
+        }
+      }
+    },
+    "get_parameters": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_parameters (received_reply synced_reply)"
+        },
+        {
+          "params": {},
+          "type": "get_DNS_query_from_DNS_packet (received_reply) (rec_query)"
+        },
+        {
+          "params": {},
+          "type": "get_DNS_query_from_DNS_packet (synced_reply) (syn_query)"
+        },
+        {
+          "params": {},
+          "type": "get_query_name (rec_query) (rec_qname)"
+        },
+        {
+          "params": {},
+          "type": "get_query_name (syn_query) (syn_qname)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": [
+          {
+            "target": "TRUE",
+            "cond": "equal (rec_qname syn_qname)"
+          },
+          {
+            "target": "FALSE"
+          }
+        ]
+      }
+    },
+    "TRUE": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (TRUE) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (event)"
+        }
+      ]
+    },
+    "FALSE": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (TIMEOUT) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (event)"
+        }
+      ]
+    }
+  }
+}
