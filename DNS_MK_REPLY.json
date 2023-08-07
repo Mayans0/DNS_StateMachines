@@ -1,0 +1,199 @@
+{
+  "id": "DNS_MK_REPLY",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMETERS"
+        }
+      }
+    },
+    "GET_PARAMETERS": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_parameters (ctrl queue)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables server) (server)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables packet_filter) (filter)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables bind9) (bind9)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables value) (value)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables type) (type)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables domain_name) (domain)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "MAKE_REPLY",
+          "actions": [
+            {
+              "params": {},
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "params": {},
+              "type": "assign (queue) (queue)"
+            },
+            {
+              "params": {},
+              "type": "assign (server) (server)"
+            },
+            {
+              "params": {},
+              "type": "assign (filter) (filter)"
+            },
+            {
+              "params": {},
+              "type": "assign (bind9) (bind9)"
+            },
+            {
+              "params": {},
+              "type": "assign (value) (value)"
+            },
+            {
+              "params": {},
+              "type": "assign (type) (type)"
+            },
+            {
+              "params": {},
+              "type": "assign (domain) (domain)"
+            }
+          ]
+        }
+      }
+    },
+    "MAKE_REPLY": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_first_element (queue) (pkt)"
+        },
+        {
+          "params": {},
+          "type": "get_DNS_transaction_id (pkt) (tid)"
+        },
+        {
+          "params": {},
+          "type": "create_DNS_packet (reply)"
+        },
+        {
+          "params": {},
+          "type": "create_DNS_resource_record (record)"
+        },
+        {
+          "params": {},
+          "type": "set_DNS_transaction_id (reply tid) (reply)"
+        },
+        {
+          "params": {},
+          "type": "set_DNS_packet_response (reply) (reply)"
+        },
+        {
+          "params": {},
+          "type": "set_IP_src (reply server) (reply)"
+        },
+        {
+          "params": {},
+          "type": "set_IP_dst (reply bind9) (reply)"
+        },
+        {
+          "params": {},
+          "type": "set_DNS_resource_record_type (record type) (record)"
+        },
+        {
+          "params": {},
+          "type": "set_DNS_resource_record_value (record value) (record)"
+        },
+        {
+          "params": {},
+          "type": "set_DNS_resource_record_domain (record domain) (record)"
+        },
+        {
+          "params": {},
+          "type": "add_DNS_response_to_answer (reply record) (reply)"
+        },
+        {
+          "params": {},
+          "type": "create_DNS_query (query_request)"
+        },
+        {
+          "params": {},
+          "type": "set_query_name (query_request domain) (query_request)"
+        },
+        {
+          "params": {},
+          "type": "add_DNS_query_to_DNS_packet (reply query_request) (reply)"
+        },
+        {
+          "params": {},
+          "type": "get_UDP_sport (pkt) (sport)"
+        },
+        {
+          "params": {},
+          "type": "set_UDP_dport (reply sport) (reply)"
+        },
+        {
+          "params": {},
+          "type": "get_UDP_dport (pkt) (dport)"
+        },
+        {
+          "params": {},
+          "type": "set_UDP_sport (reply dport) (reply)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END",
+          "actions": [
+            {
+              "params": {},
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "params": {},
+              "type": "assign (reply) (reply)"
+            }
+          ]
+        }
+      }
+    },
+    "END": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (SUCCESS) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (ctrl event reply)"
+        }
+      ]
+    }
+  }
+}
