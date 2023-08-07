@@ -1,0 +1,107 @@
+{
+  "id": "ADD_DNS_GLUE_RECORDS",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "get_parameters"
+        }
+      }
+    },
+    "get_parameters": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_parameters (ctrl reply)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "ADDING_GLUE_RECORDS",
+          "actions": [
+            {
+              "params": {},
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "params": {},
+              "type": "assign (reply) (reply)"
+            }
+          ]
+        }
+      }
+    },
+    "ADDING_GLUE_RECORDS": {
+      "entry": [
+        {
+          "params": {},
+          "type": "create_DNS_resource_record (glue_record)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables glue_value ) (g_value)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables glue_type) (g_type)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables glue_domain) (g_domain)"
+        },
+        {
+          "params": {},
+          "type": "set_DNS_resource_record_type (glue_record g_type) (glue_record)"
+        },
+        {
+          "params": {},
+          "type": "set_DNS_resource_record_value (glue_record g_value) (glue_record)"
+        },
+        {
+          "params": {},
+          "type": "set_DNS_resource_record_domain (glue_record g_domain) (glue_record)"
+        },
+        {
+          "params": {},
+          "type": "add_DNS_response_to_additional (reply glue_record) (reply)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END",
+          "actions": [
+            {
+              "params": {},
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "params": {},
+              "type": "assign (reply) (reply)"
+            }
+          ]
+        }
+      }
+    },
+    "END": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (SUCCESS) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (event ctrl reply)"
+        }
+      ]
+    }
+  }
+}
