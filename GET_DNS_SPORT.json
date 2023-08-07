@@ -1,0 +1,49 @@
+{
+  "id": "GET_DNS_SPORT",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMETERS"
+        }
+      }
+    },
+    "GET_PARAMETERS": {
+      "entry": [
+        {
+          "type": "get_parameters (ctrl pkt)"
+        },
+        {
+          "type": "get_UDP_sport (pkt) (sport)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "ENDING",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (sport) (sport)"
+            }
+          ]
+        }
+      }
+    },
+    "ENDING": {
+      "entry": [
+        {
+          "type": "set (SUCCESS) (event)"
+        },
+        {
+          "type": "return_values (ctrl event)"
+        }
+      ]
+    }
+  }
+}
