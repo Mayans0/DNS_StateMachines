@@ -1,0 +1,75 @@
+{
+  "id": "WAIT_SYNC",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "WAITING_SINAL"
+        }
+      }
+    },
+    "WAITING_SINAL": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_parameters (ctrl)"
+        },
+        {
+          "params": {},
+          "type": "set (10) (TIMEOUT)"
+        },
+        {
+          "params": {},
+          "type": "wait_sync_signal (ctrl TIMEOUT) (synced_reply)"
+        }
+      ],
+      "on": {
+        "SYNC_AVAILABLE": {
+          "target": "SUCESS_END",
+          "actions": [
+            {
+              "params": {},
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "params": {},
+              "type": "assign (synced_reply) (synced_reply)"
+            }
+          ]
+        },
+        "TIMEOUT": {
+          "target": "TIMEOUT END",
+          "actions": {
+            "params": {},
+            "type": "assign (ctrl) (ctrl)"
+          }
+        }
+      }
+    },
+    "SUCESS_END": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (SUCCESS) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (event ctrl synced_reply)"
+        }
+      ]
+    },
+    "TIMEOUT END": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (TIMEOUT) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (event)"
+        }
+      ]
+    }
+  }
+}
