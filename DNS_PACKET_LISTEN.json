@@ -1,0 +1,104 @@
+{
+  "id": "DNS_PACKET_LISTEN",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMETERS"
+        }
+      }
+    },
+    "GET_PARAMETERS": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_parameters (ctrl)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "LISTEN",
+          "actions": {
+            "params": {},
+            "type": "assign (ctrl) (ctrl)"
+          }
+        }
+      }
+    },
+    "LISTEN": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_from_file (variables packet_filter) (filter)"
+        },
+        {
+          "params": {},
+          "type": "listen (queue)"
+        },
+        {
+          "params": {},
+          "type": "packet_filter (filter)"
+        },
+        {
+          "params": {},
+          "type": "set (10) (TIMEOUT)"
+        },
+        {
+          "params": {},
+          "type": "wait_packet_signal (queue TIMEOUT)"
+        }
+      ],
+      "on": {
+        "PACKET_AVAILABLE": {
+          "target": "SUCCESS END",
+          "actions": [
+            {
+              "params": {},
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "params": {},
+              "type": "assign (queue) (queue)"
+            }
+          ]
+        },
+        "TIMEOUT": {
+          "target": "TIMEOUT END",
+          "actions": {
+            "params": {},
+            "type": "assign (ctrl) (ctrl)"
+          }
+        }
+      }
+    },
+    "SUCCESS END": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (SUCCESS) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (ctrl event queue)"
+        }
+      ]
+    },
+    "TIMEOUT END": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (TIMEOUT) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (ctrl event)"
+        }
+      ]
+    }
+  }
+}
