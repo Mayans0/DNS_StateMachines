@@ -1,0 +1,67 @@
+{
+  "id": "SEND_SYNC",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMETERS"
+        }
+      }
+    },
+    "GET_PARAMETERS": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_parameters (ctrl reply)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SEND_SYNC",
+          "actions": [
+            {
+              "params": {},
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "params": {},
+              "type": "assign (reply) (reply)"
+            }
+          ]
+        }
+      }
+    },
+    "SEND_SYNC": {
+      "entry": {
+        "params": {},
+        "type": "sync (ctrl reply)"
+      },
+      "on": {
+        "SYNC_SENT": {
+          "target": "ENDING",
+          "actions": {
+            "params": {},
+            "type": "assign (ctrl) (ctrl)"
+          }
+        }
+      }
+    },
+    "ENDING": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (SUCCESS) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (event ctrl)"
+        }
+      ]
+    }
+  }
+}
