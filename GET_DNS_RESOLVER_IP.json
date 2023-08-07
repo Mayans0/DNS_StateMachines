@@ -1,0 +1,49 @@
+{
+  "id": "GET_DNS_RESOLVER_IP",
+  "initial": "Initial state",
+  "states": {
+    "Initial state": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMETERS"
+        }
+      }
+    },
+    "GET_PARAMETERS": {
+      "entry": [
+        {
+          "type": "get_parameters (ctrl pkt)"
+        },
+        {
+          "type": "get_IP_source (pkt) (src)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (src) (src)"
+            }
+          ]
+        }
+      }
+    },
+    "END": {
+      "entry": [
+        {
+          "type": "set (SUCCESS) (event)"
+        },
+        {
+          "type": "return_values (ctrl event src)"
+        }
+      ]
+    }
+  }
+}
