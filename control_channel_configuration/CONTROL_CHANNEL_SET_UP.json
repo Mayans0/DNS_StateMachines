@@ -1,0 +1,163 @@
+{
+  "id": "CONTROL_CHANNEL_SET_UP",
+  "initial": "INITIALIZING",
+  "states": {
+    "INITIALIZING": {
+      "on": {
+        "STARTED": {
+          "target": "LOADING_VARIABLES"
+        }
+      }
+    },
+    "LOADING_VARIABLES": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_from_file (variables role) (role)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables client) (client)"
+        },
+        {
+          "params": {},
+          "type": "get_from_file (variables server) (server)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": [
+          {
+            "target": "STARTING_CLIENT_CONTROL_LINK",
+            "cond": "equal (role client)"
+          },
+          {
+            "target": "STARTING_SERVER_CONTROL_LINK",
+            "cond": "equal (role server)"
+          }
+        ]
+      }
+    },
+    "STARTING_CLIENT_CONTROL_LINK": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_from_file (variables controller_filename) (controller_filename)"
+        },
+        {
+          "params": {},
+          "type": "load_control_channel_configuration (controller_filename) (controller_conf)"
+        },
+        {
+          "params": {},
+          "type": "configure_client_control_channel (controller_conf) (controller controller_protocol)"
+        },
+        {
+          "params": {},
+          "type": "start_control_channel (controller)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SETTING_UP_CONTROL_LINK",
+          "actions": {
+            "params": {},
+            "type": "assign (controller_protocol) (controller_protocol)"
+          }
+        }
+      }
+    },
+    "STARTING_SERVER_CONTROL_LINK": {
+      "entry": [
+        {
+          "params": {},
+          "type": "get_from_file (variables controller_filename) (controller_filename)"
+        },
+        {
+          "params": {},
+          "type": "load_control_channel_configuration (controller_filename) (controller_conf)"
+        },
+        {
+          "params": {},
+          "type": "configure_server_control_channel (controller_conf) (controller controller_protocol)"
+        },
+        {
+          "params": {},
+          "type": "start_control_channel (controller)"
+        },
+        {
+          "params": {},
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SETTING_UP_CONTROL_LINK",
+          "actions": {
+            "params": {},
+            "type": "assign (controller_protocol) (controller_protocol)"
+          }
+        }
+      }
+    },
+    "SETTING_UP_CONTROL_LINK": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (10) (timeout)"
+        },
+        {
+          "params": {},
+          "type": "wait_ready_signal (controller_protocol timeout)"
+        }
+      ],
+      "on": {
+        "TIMEOUT": {
+          "target": "TIMEOUT ENDING",
+          "actions": {
+            "params": {},
+            "type": "assign (controller_protocol) (controller_protocol)"
+          }
+        },
+        "READY": {
+          "target": "SUCCESSFUL CONTROL LINK ENDING",
+          "actions": {
+            "params": {},
+            "type": "assign (controller_protocol) (controller_protocol)"
+          }
+        }
+      }
+    },
+    "TIMEOUT ENDING": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (TIMEOUT) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (event controller_protocol)"
+        }
+      ]
+    },
+    "SUCCESSFUL CONTROL LINK ENDING": {
+      "entry": [
+        {
+          "params": {},
+          "type": "set (CONTROL_CHANNEL_READY) (event)"
+        },
+        {
+          "params": {},
+          "type": "return_values (event controller_protocol)"
+        }
+      ]
+    }
+  }
+}

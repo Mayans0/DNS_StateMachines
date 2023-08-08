@@ -1,0 +1,15 @@
+{
+     "role": "192.168.123.  ",
+     "client": "192.168.123.31",
+     "server": "192.168.123.11",
+     "bind9" : "192.168.123.22",
+     "type" : "A",
+     "glue_type": "A",
+     "value" : "10.10.10.10",
+     "glue_value" : "11.11.11.11",
+     "domain_name" : "host.zone-nps.iliesbenhabbour.com",
+     "glue_domain" : "host.nopasaran.com",
+     "packet_filter": "udp and dst host 192.168.123.11",
+     "controller_filename" : "control_  .json"
+
+}

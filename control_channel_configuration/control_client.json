@@ -1,0 +1,6 @@
+{
+     "ROOT_CERTIFICATE": "root_ca.crt",
+     "PRIVATE_CERTIFICATE": "control_client",
+     "DESTINATION_IP": "192.168.123.11",
+     "SERVER_PORT": "5600"
+}
